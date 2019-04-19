@@ -47,7 +47,8 @@ module.exports = function (ctx) {
         'QTd',
         'QTooltip',
         'QBtnDropdown',
-        'QSeparator'
+        'QSeparator',
+        'QInput'
       ],
 
       directives: [
