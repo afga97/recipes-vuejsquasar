@@ -26,6 +26,7 @@ module.exports = function (ctx) {
 
       components: [
         'QLayout',
+        'QAvatar',
         'QFooter',
         'QHeader',
         'QDrawer',
@@ -39,7 +40,14 @@ module.exports = function (ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
-        'QExpansionItem'
+        'QExpansionItem',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QTooltip',
+        'QBtnDropdown',
+        'QSeparator'
       ],
 
       directives: [

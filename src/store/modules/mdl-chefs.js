@@ -1,23 +1,22 @@
-// import Vue from 'vue';
-import chefService from '../../services/chef';
+import chefService from '../../services/chef'
 
 export default {
   state: {
-      chefs: []
+    chefs: []
   },
   mutations: {
-    SET_ITEM(state, payload) {
+    SET_ITEM (state, payload) {
       state.chefs = payload.chefs
-    },
+    }
   },
   actions: {
-    GET_CHEFS_ALL: ({ state, commit }) => new Promise( (resolve, reject) => {
+    GET_CHEFS_ALL: ({ state, commit }) => new Promise((resolve, reject) => {
       chefService.alls()
-        .then( response => {
+        .then(response => {
           let chefs = response.data
-          commit('SET_ITEM', { 'chefs':chefs })  
-          resolve(Object.values(state.chefs));
-        }).catch(err => reject(err));
+          commit('SET_ITEM', { 'chefs': chefs })
+          resolve(Object.values(state.chefs))
+        }).catch(err => reject(err))
     })
   },
   getters: {

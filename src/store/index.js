@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import chef from './modules/mdl-chefs';
+import chef from './modules/mdl-chefs'
 
 Vue.use(Vuex)
 
