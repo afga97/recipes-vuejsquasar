@@ -48,7 +48,8 @@ module.exports = function (ctx) {
         'QTooltip',
         'QBtnDropdown',
         'QSeparator',
-        'QInput'
+        'QInput',
+        'QSpinnerFacebook',
       ],
 
       directives: [

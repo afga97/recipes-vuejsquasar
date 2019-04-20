@@ -6,32 +6,70 @@
             :placeholder="'Search'" :counter="false" :dense="true" :maxlength="10"></c-input>
           </template>
           <template slot="actions">
-            <q-btn
-              color="primary"
-              class="q-px-xs q-py-xs q-mt-ms"
-              icon="create"
-              @click="create"
-            />
+            <div class="q-pa-xs q-gutter-sm">
+              <c-button v-bind="buttonInfoTooltip"></c-button>
+              <c-button v-bind="buttonInfoTooltip"></c-button>
+            </div>
           </template>
         </c-data-table>
         <br><br>
         <c-input v-model="other"
             :label="'Example'" :counter="false" :maxlength="10" @cleaned="cleandInput"></c-input>
+        <br>
+        <c-button v-bind="btnSuccess"></c-button>
+        <br><br>
+        <btn-tooltip v-bind="buttonInfoTooltip"></btn-tooltip>
+
+        <br><br>
+        <form @submit.prevent="simulateSubmit" class="q-pa-md">
+          <c-input v-model="test"
+            :label="'Example'" :counter="false" :maxlength="10" @cleaned="cleandInput"></c-input>
+          <div class="row justify-end">
+            <c-button v-bind="btnSuccess" @submit.prevent="simulateSubmit"></c-button>
+          </div>
+        </form>
     </q-page>
 </template>
-
 <script>
 import CDataTable from '../components/CDataTable.vue'
 import CInput from '../components/CInput.vue'
+import CButton from '../components/CButton.vue'
+import BtnTooltip from '../components/BtnTooltip.vue'
 
 export default {
   name: 'Chef',
   components: {
     CDataTable,
-    CInput
+    CInput,
+    CButton,
+    BtnTooltip
   },
   data () {
     return {
+      test: '',
+      btnSuccess: {
+        color: 'primary',
+        outline: false,
+        round: false,
+        size: 'md',
+        submitting: false,
+        label: 'Guardar',
+        type: 'submit'
+      },
+      buttonInfoTooltip: {
+        color: 'primary',
+        outline: false,
+        round: false,
+        size: 'md',
+        label: 'Click',
+        tooltipText: 'Putos',
+        offset: [10, 10],
+        self: 'center right',
+        tshow: 'flip-right',
+        thide: 'flip-left',
+        anchor: 'center left',
+        contentclass: 'bg-amber text-black shadow-7'
+      },
       filter: '',
       other: 'Andres',
       tabletitle: 'Tabla chefs',
@@ -53,6 +91,19 @@ export default {
     },
     cleandInput () {
       this.other = ''
+    },
+    alertUser () {
+      this.$q.notify({
+        type: 'positive',
+        message: 'Again, the button click works! Awesome!'
+      })
+    },
+    simulateSubmit () {
+      console.log('Se hizo submit')
+      this.btnSuccess.submitting = true
+      setTimeout(() => {
+        this.btnSuccess.submitting = false
+      }, 3000)
     }
   }
 }
