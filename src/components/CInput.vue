@@ -4,11 +4,12 @@
       v-bind:value="value" :dense="dense" :filled="filled" :disable="disable"
       @input="$emit('input', $event)"
       :placeholder="placeholder">
-      <template v-slot:append v-if="icon">
-        <q-icon :name="icon" />
+      <template v-slot:append>
+        <q-icon :name="icon" v-if="icon"/>
+        <q-icon name="cancel" @click.stop="cleanInput" class="cursor-pointer" v-if="cleaned"/>
       </template>
-      <template v-if="cleaned" v-slot:append>
-        <q-icon name="cancel" @click.stop="cleanInput" class="cursor-pointer" />
+      <template v-slot:prepend>
+        <q-icon :name="iconprepend" />
       </template>
     </q-input>
   </div>
@@ -44,7 +45,7 @@ export default {
     },
     filled: {
       type: Boolean,
-      default: true
+      default: false
     },
     disable: {
       type: Boolean,
@@ -57,9 +58,11 @@ export default {
     cleaned: {
       type: Boolean,
       default: false
+    },
+    iconprepend: {
+      type: String
     }
   },
-  // props: ['value', 'placeholder', 'icon', 'label', 'counter'],
   methods: {
     input: function (event) {
       this.$emit('input', event.target.value)

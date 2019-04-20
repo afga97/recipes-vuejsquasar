@@ -3,18 +3,18 @@
         <c-data-table :columns="columns" :data="tableData" :id="'id'" :value="filter">
           <template slot="search">
             <c-input v-model="filter" :icon="'search'"
-            :placeholder="'Search'" :counter="false" :dense="true" :maxlength="10"></c-input>
+            :placeholder="'Search'" :counter="false"></c-input>
           </template>
           <template slot="actions">
             <div class="q-pa-xs q-gutter-sm">
-              <c-button v-bind="buttonInfoTooltip"></c-button>
-              <c-button v-bind="buttonInfoTooltip"></c-button>
+              <c-button v-bind="btnSuccess"></c-button>
+              <btn-tooltip v-bind="buttonInfoTooltip"></btn-tooltip>
             </div>
           </template>
         </c-data-table>
         <br><br>
         <c-input v-model="other"
-            :label="'Example'" :counter="false" :maxlength="10" @cleaned="cleandInput"></c-input>
+            :label="'Example'" :counter="false" :maxlength="10" :cleaned="true" :filled="true" @cleaned="cleandInput"></c-input>
         <br>
         <c-button v-bind="btnSuccess"></c-button>
         <br><br>
@@ -23,7 +23,7 @@
         <br><br>
         <form @submit.prevent="simulateSubmit" class="q-pa-md">
           <c-input v-model="test"
-            :label="'Example'" :counter="false" :maxlength="10" @cleaned="cleandInput"></c-input>
+            :label="'Example'" :counter="false" :iconprepend="'person'" :icon="'person'" :maxlength="10" :filled="true" @cleaned="cleandInput"></c-input>
           <div class="row justify-end">
             <c-button v-bind="btnSuccess" @submit.prevent="simulateSubmit"></c-button>
           </div>
@@ -61,7 +61,7 @@ export default {
         outline: false,
         round: false,
         size: 'md',
-        label: 'Click',
+        label: 'Boton con tooltip',
         tooltipText: 'Putos',
         offset: [10, 10],
         self: 'center right',
