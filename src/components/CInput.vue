@@ -1,9 +1,30 @@
 <template>
   <div>
-    <q-input borderless :label="label" :counter="counter" :maxlength="maxlength"
+    <q-input borderless v-if="type != 'textarea'"
+      :label="label" :counter="counter" :maxlength="maxlength"
       v-bind:value="value" :dense="dense" :filled="filled" :disable="disable"
       @input="$emit('input', $event)"
-      :placeholder="placeholder">
+      :placeholder="placeholder"
+      :hint="hint"
+      :type="type"
+      >
+      <template v-slot:append>
+        <q-icon :name="icon" v-if="icon"/>
+        <q-icon name="cancel" @click.stop="cleanInput" class="cursor-pointer" v-if="cleaned"/>
+      </template>
+      <template v-slot:prepend>
+        <q-icon :name="iconprepend" />
+      </template>
+    </q-input>
+    <q-input borderless v-if="type == 'textarea'"
+      :label="label" :counter="counter" :maxlength="maxlength"
+      v-bind:value="value" :dense="dense" :filled="filled" :disable="disable"
+      @input="$emit('input', $event)"
+      :placeholder="placeholder"
+      :hint="hint"
+      :type="type"
+      :rows="rows"
+      >
       <template v-slot:append>
         <q-icon :name="icon" v-if="icon"/>
         <q-icon name="cancel" @click.stop="cleanInput" class="cursor-pointer" v-if="cleaned"/>
@@ -60,7 +81,20 @@ export default {
       default: false
     },
     iconprepend: {
-      type: String
+      type: String,
+      required: false
+    },
+    hint: {
+      type: String,
+      required: false
+    },
+    type: {
+      type: String,
+      default: 'text'
+    },
+    rows: {
+      type: Number,
+      default: 3
     }
   },
   methods: {

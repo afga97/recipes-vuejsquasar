@@ -19,15 +19,30 @@
         <c-button v-bind="btnSuccess"></c-button>
         <br><br>
         <btn-tooltip v-bind="buttonInfoTooltip"></btn-tooltip>
-
         <br><br>
         <form @submit.prevent="simulateSubmit" class="q-pa-md">
           <c-input v-model="test"
-            :label="'Example'" :counter="false" :iconprepend="'person'" :icon="'person'" :maxlength="10" :filled="true" @cleaned="cleandInput"></c-input>
+            :label="'Example'" :counter="true" :iconprepend="'person'"
+            :icon="'person'" :maxlength="10"
+            :filled="true" @cleaned="cleandInput"/>
+          <c-input
+            v-model="test"
+            :label="'Campo númerico'" :iconprepend="'person'"
+            :filled="true"
+            :type="'number'"/>
+          <c-input
+            v-model="test"
+            :label="'Text Area'" :iconprepend="'person'"
+            :filled="true"
+            :type="'textarea'"/>
           <div class="row justify-end">
             <c-button v-bind="btnSuccess" @submit.prevent="simulateSubmit"></c-button>
           </div>
         </form>
+        <c-input
+            v-model="name"
+            :label="'Campo requerido'" :iconprepend="'person'"
+            :maxlength="20" :filled="true"/>
     </q-page>
 </template>
 <script>
@@ -35,6 +50,7 @@ import CDataTable from '../components/CDataTable.vue'
 import CInput from '../components/CInput.vue'
 import CButton from '../components/CButton.vue'
 import BtnTooltip from '../components/BtnTooltip.vue'
+import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Chef',
@@ -46,7 +62,14 @@ export default {
   },
   data () {
     return {
+      validations: {
+        name: {
+          required,
+          minLength: minLength(4)
+        }
+      },
       test: '',
+      name: '',
       btnSuccess: {
         color: 'primary',
         outline: false,
