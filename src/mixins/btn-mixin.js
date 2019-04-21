@@ -1,5 +1,13 @@
 export default {
   props: {
+    type: {
+      type: String,
+      required: false
+    },
+    classBtn: {
+      type: String,
+      required: false
+    },
     size: {
       type: String
     },
@@ -13,15 +21,13 @@ export default {
       type: String,
       default: 'white'
     },
-    outline: {
-      type: Boolean
-    },
     submitting: {
       type: Boolean,
       default: true
     },
-    tooltipText: {
-      type: String
+    icon: {
+      type: String,
+      required: false
     }
   },
   methods: {

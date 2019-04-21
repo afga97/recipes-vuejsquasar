@@ -2,10 +2,11 @@
   <q-btn
     :type="type"
     @click="onClick"
-    :outline="outline"
     :size="size"
     :color="color"
     :label="label"
+    :class="classBtn"
+    :icon="icon"
     >
     <template v-if="submitting">
       <q-spinner-facebook />
@@ -25,12 +26,6 @@ export default {
     type: {
       type: String
     }
-  },
-  methods: {
-    onClick: function () {
-      this.$emit('guardar')
-    }
   }
-
 }
 </script>

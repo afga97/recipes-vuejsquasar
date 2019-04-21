@@ -1,7 +1,7 @@
 <template>
   <div>
       <q-table
-      title="Chefs"
+      :title="title"
       :data="data"
       :columns="columns"
       :row-key="id"
@@ -28,7 +28,7 @@
 export default {
   name: 'DataTable',
   props: [
-    'data', 'columns', 'id', 'value'
+    'data', 'columns', 'id', 'value', 'title'
   ]
 }
 </script>

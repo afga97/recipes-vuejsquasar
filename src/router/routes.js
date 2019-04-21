@@ -8,6 +8,13 @@ const routes = [
     ]
   },
   {
+    path: '/generics',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Generic.vue') }
+    ]
+  },
+  {
     path: '/chefs',
     component: () => import('layouts/MyLayout.vue'),
     children: [

@@ -1,132 +1,111 @@
 <template>
-    <q-page padding>
-        <c-data-table :columns="columns" :data="tableData" :id="'id'" :value="filter">
-          <template slot="search">
-            <c-input v-model="filter" :icon="'search'"
-            :placeholder="'Search'" :counter="false"></c-input>
-          </template>
-          <template slot="actions">
-            <div class="q-pa-xs q-gutter-sm">
-              <c-button v-bind="btnSuccess"></c-button>
-              <btn-tooltip v-bind="buttonInfoTooltip"></btn-tooltip>
-            </div>
-          </template>
-        </c-data-table>
-        <br><br>
-        <c-input v-model="other"
-            :label="'Example'" :counter="false" :maxlength="10" :cleaned="true" :filled="true" @cleaned="cleandInput"></c-input>
-        <br>
-        <c-button v-bind="btnSuccess"></c-button>
-        <br><br>
-        <btn-tooltip v-bind="buttonInfoTooltip"></btn-tooltip>
-        <br><br>
-        <form @submit.prevent="simulateSubmit" class="q-pa-md">
-          <c-input v-model="test"
-            :label="'Example'" :counter="true" :iconprepend="'person'"
-            :icon="'person'" :maxlength="10"
-            :filled="true" @cleaned="cleandInput"/>
-          <c-input
-            v-model="test"
-            :label="'Campo númerico'" :iconprepend="'person'"
-            :filled="true"
-            :type="'number'"/>
-          <c-input
-            v-model="test"
-            :label="'Text Area'" :iconprepend="'person'"
-            :filled="true"
-            :type="'textarea'"/>
-          <div class="row justify-end">
-            <c-button v-bind="btnSuccess" @submit.prevent="simulateSubmit"></c-button>
+  <q-page padding>
+    <div class="q-pa-md">
+      <c-button v-bind="buttonSuccess" @click="openModal" />
+      <c-data-table :columns="columns" :data="chefs" :id="'id'" :value="filter" :title="'Chefs'">
+        <template slot="search">
+          <c-input v-model="filter" :icon="'search'"
+          :placeholder="'Search'" :counter="false"></c-input>
+        </template>
+        <template slot="actions">
+          <div class="q-pa-md q-gutter-sm">
+            <btn-tooltip v-bind="buttonEdit" @click="edit"></btn-tooltip>
+            <btn-tooltip v-bind="buttonDelete"></btn-tooltip>
           </div>
-        </form>
-        <c-input
-            v-model="name"
-            :label="'Campo requerido'" :iconprepend="'person'"
-            :maxlength="20" :filled="true"/>
-    </q-page>
+        </template>
+      </c-data-table>
+    </div>
+    <c-modal :title="'Crear Chef'" :open="modalChef" @close="closeModal" :size="'medium'">
+      <p v-for="n in 10" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam. t. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam t. Rer</p>
+    </c-modal>
+  </q-page>
 </template>
+
 <script>
 import CDataTable from '../components/CDataTable.vue'
 import CInput from '../components/CInput.vue'
-import CButton from '../components/CButton.vue'
 import BtnTooltip from '../components/BtnTooltip.vue'
-import { required, minLength } from 'vuelidate/lib/validators'
+import CButton from '../components/CButton.vue'
+import CModal from '../components/CModal.vue'
+
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Chef',
   components: {
     CDataTable,
     CInput,
+    BtnTooltip,
     CButton,
-    BtnTooltip
+    CModal
   },
   data () {
     return {
-      validations: {
-        name: {
-          required,
-          minLength: minLength(4)
-        }
-      },
-      test: '',
-      name: '',
-      btnSuccess: {
-        color: 'primary',
-        outline: false,
-        round: false,
-        size: 'md',
-        submitting: false,
-        label: 'Guardar',
-        type: 'submit'
-      },
-      buttonInfoTooltip: {
-        color: 'primary',
-        outline: false,
-        round: false,
-        size: 'md',
-        label: 'Boton con tooltip',
-        tooltipText: 'Putos',
-        offset: [10, 10],
+      filter: '',
+      modalChef: false,
+      sizeModal: 'small',
+      columns: [
+        { name: 'id', align: 'left', label: 'Code', field: 'id', sortable: false },
+        { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: false },
+        { name: 'surname', align: 'left', label: 'Surname', field: 'surname', sortable: false },
+        { name: 'edad', align: 'left', label: 'Age', field: 'edad', sortable: false },
+        { name: 'actions', align: 'left', label: 'Action', field: 'actions', sortable: false, style: 'width: 220px' }
+      ],
+      buttonEdit: {
+        type: 'button',
+        color: 'warning',
+        size: 'xs',
+        icon: 'create',
+        tooltipText: 'Edit',
+        offset: [5, 10],
         self: 'center right',
         tshow: 'flip-right',
         thide: 'flip-left',
         anchor: 'center left',
-        contentclass: 'bg-amber text-black shadow-7'
+        contentclass: 'bg-gray1 text-white text-subtitle1 shadow-7'
       },
-      filter: '',
-      other: 'Andres',
-      tabletitle: 'Tabla chefs',
-      columns: [
-        { name: 'id', align: 'left', label: 'Código', field: 'id', sortable: false },
-        { name: 'name', align: 'left', label: 'Nombre', field: 'name', sortable: false },
-        { name: 'actions', align: 'left', label: 'Acciones', field: 'actions', sortable: false }
-      ],
-      tableData: [
-        { id: 1, name: 'Andres' },
-        { id: 2, name: 'Felipe' }
-      ]
+      buttonDelete: {
+        type: 'button',
+        color: 'negative',
+        size: 'xs',
+        icon: 'close',
+        tooltipText: 'Delete',
+        offset: [5, 10],
+        self: 'center right',
+        tshow: 'flip-right',
+        thide: 'flip-left',
+        anchor: 'center right',
+        contentclass: 'bg-gray1 text-white text-subtitle1 shadow-7'
+      },
+      buttonSuccess: {
+        type: 'button',
+        color: 'primary',
+        label: 'Create',
+        size: 'md'
+      }
     }
   },
-  methods: {
-    create () {
-      alert('Hola mundo')
-      console.log('Hola mundo')
-    },
-    cleandInput () {
-      this.other = ''
-    },
-    alertUser () {
-      this.$q.notify({
-        type: 'positive',
-        message: 'Again, the button click works! Awesome!'
+  computed: {
+    ...mapGetters({
+      chefs: 'chefs' })
+  },
+  mounted () {
+    this.$store.dispatch('GET_CHEFS_ALL')
+      .then((response) => {
+        console.log(`success view chefs ${response}`)
+      }).catch(error => {
+        console.log(`fail errors view chefs ${error}`)
       })
+  },
+  methods: {
+    edit () {
+      alert('Editar')
     },
-    simulateSubmit () {
-      console.log('Se hizo submit')
-      this.btnSuccess.submitting = true
-      setTimeout(() => {
-        this.btnSuccess.submitting = false
-      }, 3000)
+    openModal () {
+      this.modalChef = true
+    },
+    closeModal () {
+      this.modalChef = false
     }
   }
 }

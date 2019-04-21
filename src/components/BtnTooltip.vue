@@ -1,20 +1,22 @@
 <template>
-  <div>
-    <q-btn
-      @click="onClick"
-      :outline="outline"
-      :size="size"
-      :color="color"
-      :label="label">
-      <q-tooltip
-        :content-class="contentclass"
-        :offset="offset"
-        :self="self"
-        :transition-show="tshow"
-        :transition-hide="thide"
-        :anchor="anchor">{{tooltipText}}</q-tooltip>
-    </q-btn>
-  </div>
+  <q-btn
+    :type="type"
+    @click="onClick"
+    :size="size"
+    :color="color"
+    :label="label"
+    :class="classBtn"
+    :icon="icon"
+    no-caps
+    >
+    <q-tooltip
+      :content-class="contentclass"
+      :offset="offset"
+      :self="self"
+      :transition-show="tshow"
+      :transition-hide="thide"
+      :anchor="anchor">{{tooltipText}}</q-tooltip>
+  </q-btn>
 </template>
 <script>
 import ButtonMixin from '../mixins/btn-mixin'
