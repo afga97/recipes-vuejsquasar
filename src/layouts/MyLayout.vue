@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHr Lpr lfr">
-    <q-header elevated>
+  <q-layout view="lhr Lpr lff">
+    <q-header elevated id="header">
       <q-toolbar>
         <q-btn
           flat
@@ -17,34 +17,6 @@
         </q-toolbar-title>
 
         <!-- <div class="q-pa-md q-gutter-y-md"> -->
-          <div class="q-gutter-sm">
-            <div class="q-pa-md">
-              <q-btn-dropdown
-                class="glossy"
-                color="primary"
-                label="Account Settings"
-              >
-              <div class="row no-wrap q-pa-md">
-                <div class="column">
-                  <div class="text-h6 q-mb-md">Settings</div>
-                </div>
-                <q-separator vertical inset class="q-mx-lg" />
-                <div class="column items-center">
-                  <q-avatar size="72px">
-                    <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
-                  </q-avatar>
-                  <div class="text-subtitle1 q-mt-md q-mb-xs">Sr. Andrés Giraldo</div>
-                  <q-btn
-                    color="primary"
-                    label="Logout"
-                    push
-                    size="sm"
-                  />
-                </div>
-              </div>
-              </q-btn-dropdown>
-            </div>
-          </div>
         <!-- </div> -->
       </q-toolbar>
     </q-header>
@@ -54,6 +26,19 @@
       bordered
       content-class="bg-grey-2"
     >
+      <div class="column justify-between"  accent style="height: 50px;">
+        <q-item clickable v-ripple>
+          <q-item-section side>
+            <q-avatar rounded icon="person" color="primary" text-color="white">
+            </q-avatar>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Andrés Giraldo</q-item-label>
+            <q-item-label caption>Administrador</q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+      <q-separator />
       <q-list>
         <q-item clickable v-ripple :active="link === 'home'"
         @click="link = 'home'" to="/home" exact active-class="my-menu-link">
@@ -89,6 +74,13 @@
           <q-item-section>Chefs</q-item-section>
         </q-item>
       </q-expansion-item>
+      <q-item clickable v-ripple :active="link === 'exit'"
+        @click="link = 'exit'" to="/exit" exact active-class="my-menu-link">
+          <q-item-section avatar>
+            <q-icon name="exit_to_app" />
+          </q-item-section>
+          <q-item-section>Salir</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -119,6 +111,5 @@ export default {
   }
 }
 </script>
-
-<style>
+<style scoped>
 </style>
