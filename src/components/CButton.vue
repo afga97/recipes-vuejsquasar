@@ -7,6 +7,7 @@
     :label="label"
     :class="classBtn"
     :icon="icon"
+    no-caps
     >
     <template v-if="submitting">
       <q-spinner-facebook />
