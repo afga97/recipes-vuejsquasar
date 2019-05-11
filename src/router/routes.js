@@ -4,7 +4,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Home.vue') }
     ]
   },
   {
@@ -20,7 +20,9 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Chef.vue') },
       { path: 'prueba/', component: () => import('pages/Prueba.vue') },
-      { path: 'prueba2/', component: () => import('pages/prueba2.vue') }
+      { path: 'prueba2/', component: () => import('pages/prueba2.vue') },
+      { path: 'prueba3/', component: () => import('pages/Chef.vue') }
+
     ]
   }
 ]

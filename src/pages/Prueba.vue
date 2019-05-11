@@ -1,42 +1,76 @@
 <template>
-  <div class="q-pa-md">
-    <c-button v-bind="buttonSuccess"/>
-    <q-table
-      title="Chefs"
-      :data="data"
-      :columns="columns"
-      row-key="id"
-      :pagination.sync="pagination"
-      :loading="loading"
-      @request="onRequest"
-      binary-state-sort
-    >
-      <!-- <template v-slot:top>
-        <h6>Chefs</h6>
-      </template> -->
-      <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </template>
-      <template v-slot:body="props">
-        <q-tr :props="props">
-            <q-td
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-            >
-              {{ col.value }}
-              <div class="q-pa-md q-gutter-sm">
-                <btn-tooltip v-if="col.name == 'actions'" v-bind="buttonEdit"></btn-tooltip>
-                <btn-tooltip v-if="col.name == 'actions'" v-bind="buttonDelete"></btn-tooltip>
-              </div>
-            </q-td>
-        </q-tr>
-      </template>
-    </q-table>
+  <div>
+    <home-page></home-page>
+    <br>
+    <div class="q-pa-md">
+      <c-button v-bind="buttonSuccess" @click="modalChef = !modalChef"/>
+      <q-table
+        title="Chefs"
+        :separator="'cell'"
+        :data="data"
+        :columns="columns"
+        row-key="id"
+        :pagination.sync="pagination"
+        :loading="loading"
+        @request="onRequest"
+        binary-state-sort
+      >
+        <!-- <template v-slot:top>
+          <h6>Chefs</h6>
+        </template> -->
+        <template v-slot:top-right>
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+              <q-td
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+              >
+                {{ col.value }}
+                <div class="q-pa-md q-gutter-sm">
+                  <btn-tooltip v-if="col.name == 'actions'" v-bind="buttonEdit"></btn-tooltip>
+                  <btn-tooltip v-if="col.name == 'actions'" v-bind="buttonDelete"></btn-tooltip>
+                </div>
+              </q-td>
+          </q-tr>
+        </template>
+      </q-table>
+      <c-modal :title="'Crear Chef'" :open="modalChef" @close="closeModal" :size="'medium'">
+        <div class="row q-col-gutter-sm">
+          <div class="col-md-4 col-xs-12">
+            <c-input
+                  v-model="form.chef.name"
+                  :label="'Name'" :iconprepend="'arrow_right'"
+                  :filled="true"
+                  :type="'text'"/>
+          </div>
+          <div class="col-md-4 col-xs-12">
+            <c-input
+                  v-model="form.chef.surname"
+                  :label="'Surname'" :iconprepend="'arrow_right'"
+                  :filled="true"
+                  :type="'text'"/>
+          </div>
+          <div class="col-md-4 col-xs-12">
+            <c-input
+                  v-model="form.chef.age"
+                  :label="'Age'" :iconprepend="'arrow_right'"
+                  :filled="true"
+                  :type="'number'"/>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-end">
+          <c-button v-bind="buttonSave" @submit.prevent="simulateSubmit"></c-button>
+        </div>
+      </c-modal>
+    </div>
   </div>
 </template>
 <script>
@@ -44,12 +78,23 @@
 import ChefService from '../services/chef'
 import BtnTooltip from '../components/BtnTooltip.vue'
 import CButton from '../components/CButton.vue'
+import CModal from '../components/CModal.vue'
+import CInput from '../components/CInput.vue'
+import HomePage from './Home.vue'
 
 export default {
   name: 'Prueba',
-  components: { BtnTooltip, CButton },
+  components: { BtnTooltip, CButton, CModal, CInput, HomePage },
   data () {
     return {
+      form: {
+        chef: {
+          name: '',
+          surname: '',
+          age: ''
+        }
+      },
+      modalChef: false,
       filter: '',
       loading: false,
       pagination: {
@@ -92,6 +137,12 @@ export default {
         color: 'primary',
         label: 'Create',
         size: 'md'
+      },
+      buttonSave: {
+        type: 'button',
+        color: 'primary',
+        label: 'Save',
+        size: 'md'
       }
     }
   },
@@ -117,6 +168,9 @@ export default {
         }, (err) => {
           console.log(err)
         })
+    },
+    closeModal () {
+      this.modalChef = false
     }
   }
 }

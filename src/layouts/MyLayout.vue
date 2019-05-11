@@ -50,7 +50,7 @@
         <q-item clickable v-ripple :active="link === 'recetas'"
         @click="link = 'recetas'" active-class="my-menu-link">
           <q-item-section avatar>
-            <q-icon name="book" />
+            <q-icon name="restaurant" />
           </q-item-section>
           <q-item-section>Recipes</q-item-section>
         </q-item>
@@ -62,14 +62,14 @@
         <q-item clickable v-ripple :active="link === 'ingredientes'"
         @click="link = 'ingredientes'" active-class="my-menu-link">
           <q-item-section avatar>
-            <q-icon name="bookmarks" />
+            <q-icon name="fastfood" />
           </q-item-section>
           <q-item-section>Ingredients</q-item-section>
         </q-item>
         <q-item clickable v-ripple :active="link === 'chefs'"
         @click="link = 'chefs'" active-class="my-menu-link">
           <q-item-section avatar>
-            <q-icon name="person" />
+            <q-icon name="people" />
           </q-item-section>
           <q-item-section>Chefs</q-item-section>
         </q-item>
