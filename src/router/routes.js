@@ -2,10 +2,7 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MyLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Home.vue') }
-    ]
+    redirect: '/chefs/prueba'
   },
   {
     path: '/generics',

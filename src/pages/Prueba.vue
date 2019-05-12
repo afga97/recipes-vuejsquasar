@@ -1,7 +1,6 @@
 <template>
   <div>
     <home-page></home-page>
-    <br>
     <div class="q-pa-md">
       <c-button v-bind="buttonSuccess" @click="modalChef = !modalChef"/>
       <q-table
@@ -41,40 +40,42 @@
           </q-tr>
         </template>
       </q-table>
-      <c-modal :title="'Crear Chef'" :open="modalChef" @close="closeModal" :size="'medium'">
-        <div class="row q-col-gutter-sm">
-          <div class="col-md-4 col-xs-12">
-            <c-input
-                  v-model="form.chef.name"
-                  :label="'Name'" :iconprepend="'arrow_right'"
-                  :filled="true"
-                  :type="'text'"/>
+      <c-modal :title="'Crear Chef'" :open="modalChef" @close="modalChef = !modalChef" :size="'medium'">
+        <form class="q-pa-md">
+          <div class="row q-col-gutter-sm">
+            <div class="col-md-4 col-xs-12">
+              <c-input
+                    v-model="form.chef.name"
+                    :label="'Name'" :iconprepend="'arrow_right'"
+                    :filled="true"
+                    :type="'text'"/>
+            </div>
+            <div class="col-md-4 col-xs-12">
+              <c-input
+                    v-model="form.chef.surname"
+                    :label="'Surname'" :iconprepend="'arrow_right'"
+                    :filled="true"
+                    :type="'text'"/>
+            </div>
+            <div class="col-md-4 col-xs-12">
+              <c-input
+                    v-model="form.chef.age"
+                    :label="'Age'" :iconprepend="'arrow_right'"
+                    :filled="true"
+                    :type="'number'"/>
+            </div>
           </div>
-          <div class="col-md-4 col-xs-12">
-            <c-input
-                  v-model="form.chef.surname"
-                  :label="'Surname'" :iconprepend="'arrow_right'"
-                  :filled="true"
-                  :type="'text'"/>
+          <br>
+          <div class="row justify-end">
+            <c-button v-bind="buttonSave" @click="simulateSubmit"></c-button>
           </div>
-          <div class="col-md-4 col-xs-12">
-            <c-input
-                  v-model="form.chef.age"
-                  :label="'Age'" :iconprepend="'arrow_right'"
-                  :filled="true"
-                  :type="'number'"/>
-          </div>
-        </div>
-        <br>
-        <div class="row justify-end">
-          <c-button v-bind="buttonSave" @submit.prevent="simulateSubmit"></c-button>
-        </div>
+        </form>
       </c-modal>
     </div>
   </div>
 </template>
 <script>
-
+import Message from '../mixins/noty'
 import ChefService from '../services/chef'
 import BtnTooltip from '../components/BtnTooltip.vue'
 import CButton from '../components/CButton.vue'
@@ -139,10 +140,12 @@ export default {
         size: 'md'
       },
       buttonSave: {
-        type: 'button',
         color: 'primary',
+        round: false,
+        size: 'md',
+        submitting: false,
         label: 'Save',
-        size: 'md'
+        type: 'submit'
       }
     }
   },
@@ -159,7 +162,6 @@ export default {
       let startRow = (page - 1) * rowsPerPage
       ChefService.alls(fetchCount, startRow)
         .then((response) => {
-          console.log(response)
           this.pagination.rowsNumber = response.data.count
           this.data = response.data.results
           this.pagination.page = page
@@ -169,8 +171,12 @@ export default {
           console.log(err)
         })
     },
-    closeModal () {
-      this.modalChef = false
+    simulateSubmit () {
+      this.buttonSave.submitting = true
+      setTimeout(() => {
+        this.buttonSave.submitting = false
+      }, 3000)
+      Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
     }
   }
 }

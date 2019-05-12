@@ -30,23 +30,14 @@
           exact
         />
       </q-tabs>
-      <q-separator />
-      <q-tab-panels v-model="tab" animated>
+      <!-- <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="mails">
-          <div class="text-h6">CHEFS</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </q-tab-panel>
-
         <q-tab-panel name="alarms">
-          <div class="text-h6">RECIPES</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </q-tab-panel>
-
         <q-tab-panel name="movies">
-          <div class="text-h6">INGREDIENTS</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </q-tab-panel>
-      </q-tab-panels>
+      </q-tab-panels> -->
     </q-card>
   </div>
 </template>
@@ -55,7 +46,7 @@ export default {
   name: 'HomePage',
   data () {
     return {
-      tab: 'mails'
+      tab: 'chefs'
     }
   }
 }
