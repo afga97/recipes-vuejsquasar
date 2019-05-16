@@ -24,23 +24,11 @@
             </template>
           </q-input>
         </template>
-        <template v-slot:body="props">
-          <q-tr :props="props">
-              <q-td
-                v-for="col in props.cols"
-                :key="col.name"
-                :props="props"
-              >
-                {{ col.value }}
-                <div class="q-pa-md q-gutter-sm">
-                  <btn-tooltip v-if="col.name == 'actions'" v-bind="buttonEdit"></btn-tooltip>
-                  <btn-tooltip v-if="col.name == 'actions'" v-bind="buttonDelete"></btn-tooltip>
-                </div>
-              </q-td>
-          </q-tr>
-        </template>
+        <q-td slot="body-cell-actions" slot-scope="props" :props="props">
+          <p>Hola</p>
+        </q-td>
       </q-table>
-      <c-modal :title="'Crear Chef'" :open="modalChef" @close="modalChef = !modalChef" :size="'medium'" >
+      <c-modal :title="'Crear Chef'" :open="modalChef" @close="modalChef = !modalChef" :size="'medium'">
         <form class="q-pa-md">
           <div class="row q-col-gutter-sm">
             <div class="col-md-4 col-xs-12">
@@ -77,7 +65,6 @@
 <script>
 import Message from '../mixins/noty'
 import ChefService from '../services/chef'
-import BtnTooltip from '../components/BtnTooltip.vue'
 import CButton from '../components/CButton.vue'
 import CModal from '../components/CModal.vue'
 import CInput from '../components/CInput.vue'
@@ -85,7 +72,7 @@ import HomePage from './Home.vue'
 
 export default {
   name: 'Prueba',
-  components: { BtnTooltip, CButton, CModal, CInput, HomePage },
+  components: { CButton, CModal, CInput, HomePage },
   data () {
     return {
       form: {
@@ -145,7 +132,7 @@ export default {
         size: 'md',
         submitting: false,
         label: 'Save',
-        type: 'button'
+        type: 'submit'
       }
     }
   },
@@ -176,7 +163,6 @@ export default {
       setTimeout(() => {
         this.buttonSave.submitting = false
       }, 3000)
-      this.modalChef = false
       Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
     }
   }
