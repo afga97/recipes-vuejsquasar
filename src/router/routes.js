@@ -2,7 +2,7 @@
 const routes = [
   {
     path: '/',
-    redirect: '/chefs/prueba'
+    redirect: '/chefs/all/'
   },
   {
     path: '/generics',
@@ -15,11 +15,7 @@ const routes = [
     path: '/chefs/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Chef.vue') },
-      { path: 'prueba/', component: () => import('pages/Prueba.vue') },
-      { path: 'prueba2/', component: () => import('pages/prueba2.vue') },
-      { path: 'prueba3/', component: () => import('pages/Chef.vue') }
-
+      { path: 'all/', component: () => import('pages/Chefs.vue') }
     ]
   }
 ]

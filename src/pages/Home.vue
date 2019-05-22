@@ -13,7 +13,7 @@
         >
         <q-route-tab
           icon="people"
-          to="/chefs/prueba"
+          to="/chefs/all/"
           label="CHEFS"
           exact
         />

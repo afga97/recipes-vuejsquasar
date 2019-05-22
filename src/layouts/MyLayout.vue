@@ -26,18 +26,20 @@
       bordered
       content-class="bg-grey-2"
     >
-      <div class="column justify-between"  accent style="height: 50px;">
-        <q-item clickable v-ripple>
-          <q-item-section side>
-            <q-avatar rounded icon="person" color="primary" text-color="white">
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Andrés Giraldo</q-item-label>
-            <q-item-label caption>Administrador</q-item-label>
-          </q-item-section>
-        </q-item>
-      </div>
+    <div class="column justify-between" accent style="height: 150px; background-image: url(https://cdn-images-1.medium.com/max/310/1*Jie55HRpeCmZpmldgrL2eQ.png)">
+      <q-item>
+        <q-item-section side>
+          <q-avatar size="100px" style="margin-top: 20px;">
+            <img src="http://chittagongit.com/images/avatar-icon-png/avatar-icon-png-25.jpg" />
+          </q-avatar>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Agiraagu</q-item-label>
+          <q-item-label caption>Administrador</q-item-label>
+          <q-btn round color="blue-5" icon="directions" />
+        </q-item-section>
+      </q-item>
+    </div>
       <q-separator />
       <q-list>
         <q-item clickable v-ripple :active="link === 'home'"
@@ -103,6 +105,7 @@ export default {
   data () {
     return {
       link: 'home',
+      tema: true,
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
