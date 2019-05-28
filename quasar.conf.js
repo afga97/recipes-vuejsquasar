@@ -6,6 +6,7 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       'axios',
+      'veevalidate',
       'validate'
     ],
 
@@ -60,7 +61,8 @@ module.exports = function (ctx) {
         'QTab',
         'QRouteTab',
         'QTabPanels',
-        'QTabPanel'
+        'QTabPanel',
+        'QField'
       ],
 
       directives: [

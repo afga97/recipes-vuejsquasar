@@ -30,38 +30,26 @@
             <q-btn color="red" @click.prevent="simulateSubmit()" icon="cancel" :size="'xs'" />
           </q-td>
         </q-table>
-        <c-modal :title="'Crear Chef'" :open="modalChef" @close="modalChefClose()" :size="'medium'">
-          <form class="q-pa-md">
-            <div class="row q-col-gutter-sm">
-              <div class="col-md-4 col-xs-12">
-                <c-input
-                      v-model="form.chef.name"
-                      :label="'Name'" :iconprepend="'arrow_right'"
-                      :filled="true"
-                      :type="'text'"/>
-              </div>
-              <div class="col-md-4 col-xs-12">
-                <c-input
-                      v-model="form.chef.surname"
-                      :label="'Surname'" :iconprepend="'arrow_right'"
-                      :filled="true"
-                      :type="'text'"/>
-              </div>
-              <div class="col-md-4 col-xs-12">
-                <c-input
-                      v-model="form.chef.edad"
-                      :label="'Age'" :iconprepend="'arrow_right'"
-                      :filled="true"
-                      :type="'number'"/>
-              </div>
-            </div>
-            <br>
-            <div class="row justify-end">
+        <q-dialog v-model="modalChef">
+          <q-card style="width: 1000px; max-width: 80vw;">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Hola</div>
+              <q-space />
+              <q-btn icon="close" flat round dense/>
+            </q-card-section>
+            <q-card-section>
+              <q-field
+                :error="errors.has('name')"
+                :error-message="errors.first('name')">
+                <q-input
+                  v-model="form.chef.name"
+                  v-validate="'required'"
+                  name="name" />
+              </q-field>
               <q-btn :loading="submitting" color="blue" v-if="!form.chef.id" @click.prevent="simulateSubmit()">Save</q-btn>
-              <q-btn :loading="submitting" color="blue" v-if="form.chef.id" @click.prevent="updateChef()">Actualizar</q-btn>
-            </div>
-          </form>
-        </c-modal>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
       </div>
     </q-page>
   </div>
@@ -70,15 +58,15 @@
 import Message from '../mixins/noty'
 import DataTable from '../mixins/dataTable'
 import CButton from '../components/CButton.vue'
-import CModal from '../components/CModal.vue'
-import CInput from '../components/CInput.vue'
+// import CModal from '../components/CModal.vue'
+// import CInput from '../components/CInput.vue'
 import HomePage from './Home.vue'
 import chefService from '../services/chef'
 
 export default {
   name: 'Prueba',
   mixins: [DataTable],
-  components: { CButton, CModal, CInput, HomePage },
+  components: { CButton, HomePage },
   data () {
     return {
       url: 'recipes/chefs/',
@@ -132,15 +120,21 @@ export default {
     },
     simulateSubmit () {
       this.submitting = true
-      chefService.save(this.form.chef).then((response) => {
-        this.submitting = false
-        this.modalChef = false
-        this.onRequest({ pagination: this.pagination })
-        this.form.chef = Object.assign({})
-        Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
-      }, (error) => {
-        this.submitting = false
-        console.log(error)
+      this.$validator.validateAll().then((response) => {
+        if (response) {
+          chefService.save(this.form.chef).then((response) => {
+            this.submitting = false
+            this.modalChef = false
+            this.onRequest({ pagination: this.pagination })
+            this.form.chef = Object.assign({})
+            Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
+          }, (error) => {
+            this.submitting = false
+            console.log(error)
+          })
+        } else {
+          alert('error')
+        }
       })
     },
     editChef (id) {

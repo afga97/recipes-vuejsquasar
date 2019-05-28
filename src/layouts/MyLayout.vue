@@ -81,7 +81,7 @@
           <q-item-section avatar>
             <q-icon name="exit_to_app" />
           </q-item-section>
-          <q-item-section>Salir</q-item-section>
+          <q-item-section @click="salir">Salir</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -110,7 +110,10 @@ export default {
     }
   },
   methods: {
-    openURL
+    openURL,
+    salir () {
+      this.$router.push('/')
+    }
   }
 }
 </script>
