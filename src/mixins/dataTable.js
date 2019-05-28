@@ -30,7 +30,6 @@ export default {
         .then((response) => {
           this.pagination.rowsNumber = response.data.count
           this.data = response.data.results
-          console.log(this.data)
           this.pagination.page = page
           this.pagination.rowsPerPage = rowsPerPage
           this.loading = false

@@ -26,10 +26,11 @@
             </q-input>
           </template>
           <q-td slot="body-cell-actions" slot-scope="props" :props="props">
-            <p>Opciones</p>
+            <q-btn color="orange" @click.prevent="editChef(props.row.id)" icon="create" :size="'xs'" />
+            <q-btn color="red" @click.prevent="simulateSubmit()" icon="cancel" :size="'xs'" />
           </q-td>
         </q-table>
-        <c-modal :title="'Crear Chef'" :open="modalChef" @close="modalChef = !modalChef" :size="'medium'">
+        <c-modal :title="'Crear Chef'" :open="modalChef" @close="modalChefClose()" :size="'medium'">
           <form class="q-pa-md">
             <div class="row q-col-gutter-sm">
               <div class="col-md-4 col-xs-12">
@@ -48,7 +49,7 @@
               </div>
               <div class="col-md-4 col-xs-12">
                 <c-input
-                      v-model="form.chef.age"
+                      v-model="form.chef.edad"
                       :label="'Age'" :iconprepend="'arrow_right'"
                       :filled="true"
                       :type="'number'"/>
@@ -56,7 +57,8 @@
             </div>
             <br>
             <div class="row justify-end">
-              <c-button v-bind="buttonSave" @click="simulateSubmit"></c-button>
+              <q-btn :loading="submitting" color="blue" v-if="!form.chef.id" @click.prevent="simulateSubmit()">Save</q-btn>
+              <q-btn :loading="submitting" color="blue" v-if="form.chef.id" @click.prevent="updateChef()">Actualizar</q-btn>
             </div>
           </form>
         </c-modal>
@@ -67,11 +69,11 @@
 <script>
 import Message from '../mixins/noty'
 import DataTable from '../mixins/dataTable'
-// import ChefService from '../services/chef'
 import CButton from '../components/CButton.vue'
 import CModal from '../components/CModal.vue'
 import CInput from '../components/CInput.vue'
 import HomePage from './Home.vue'
+import chefService from '../services/chef'
 
 export default {
   name: 'Prueba',
@@ -80,11 +82,12 @@ export default {
   data () {
     return {
       url: 'recipes/chefs/',
+      submitting: false,
       form: {
         chef: {
           name: '',
           surname: '',
-          age: ''
+          edad: ''
         }
       },
       modalChef: false,
@@ -119,24 +122,45 @@ export default {
         color: 'primary',
         label: 'Create',
         size: 'md'
-      },
-      buttonSave: {
-        color: 'primary',
-        round: false,
-        size: 'md',
-        submitting: false,
-        label: 'Save',
-        type: 'submit'
       }
     }
   },
   methods: {
+    modalChefClose () {
+      this.modalChef = !this.modalChef
+      this.form.chef = Object.assign({})
+    },
     simulateSubmit () {
-      this.buttonSave.submitting = true
-      setTimeout(() => {
-        this.buttonSave.submitting = false
-      }, 3000)
-      Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
+      this.submitting = true
+      chefService.save(this.form.chef).then((response) => {
+        this.submitting = false
+        this.modalChef = false
+        this.onRequest({ pagination: this.pagination })
+        this.form.chef = Object.assign({})
+        Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
+      }, (error) => {
+        this.submitting = false
+        console.log(error)
+      })
+    },
+    editChef (id) {
+      chefService.edit(id).then((response) => {
+        this.form.chef = Object.assign(response.data)
+        this.modalChef = true
+      }, (error) => {
+        console.log(error)
+      })
+    },
+    updateChef () {
+      chefService.update(this.form.chef).then((response) => {
+        this.submitting = false
+        this.modalChef = false
+        this.onRequest({ pagination: this.pagination })
+        this.form.chef = Object.assign({})
+        Message.message({ 'type': 'green', 'message': ' Chef actuliaado correctamente', 'timeout': 5 })
+      }, (error) => {
+        console.log(error)
+      })
     }
   }
 }
