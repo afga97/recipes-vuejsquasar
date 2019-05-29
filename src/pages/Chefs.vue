@@ -3,7 +3,7 @@
     <home-page></home-page>
     <q-page padding>
       <div class="q-pa-md">
-        <c-button v-bind="buttonSuccess" @click="modalChef = !modalChef"/>
+        <c-button v-bind="buttonSuccess" @click="modalOption(!modalChef.open)"/>
         <q-table
           title="Chefs"
           :separator="'none'"
@@ -30,23 +30,51 @@
             <q-btn color="red" @click.prevent="simulateSubmit()" icon="cancel" :size="'xs'" />
           </q-td>
         </q-table>
-        <q-dialog v-model="modalChef">
+        <q-dialog v-model="modalChef.open">
           <q-card style="width: 1000px; max-width: 80vw;">
             <q-card-section class="row items-center">
-              <div class="text-h6">Hola</div>
+              <div class="text-h6">{{ modalChef.title }}</div>
               <q-space />
-              <q-btn icon="close" flat round dense/>
+              <q-btn icon="close" flat round dense v-close-popup/>
             </q-card-section>
             <q-card-section>
-              <q-field
-                :error="errors.has('name')"
-                :error-message="errors.first('name')">
-                <q-input
-                  v-model="form.chef.name"
-                  v-validate="'required'"
-                  name="name" />
-              </q-field>
-              <q-btn :loading="submitting" color="blue" v-if="!form.chef.id" @click.prevent="simulateSubmit()">Save</q-btn>
+              <form class="q-pa-md">
+                <div class="row q-col-gutter-sm">
+                  <div class="col-md-12 col-xs-12">
+                    <q-input
+                      :label="'Name'"
+                      :error="errors.has('name')"
+                      :error-message="errors.first('name')"
+                      v-model="form.chef.name"
+                      v-validate="'required'"
+                      name="name"
+                      color="primary" />
+                  </div>
+                  <div class="col-md-12 col-xs-12">
+                    <q-input
+                      :label="'Surname'"
+                      :error="errors.has('surname')"
+                      :error-message="errors.first('surname')"
+                      v-model="form.chef.surname"
+                      v-validate="'required'"
+                      name="surname"
+                      color="primary" />
+                  </div>
+                  <div class="col-md-12 col-xs-12">
+                    <q-input
+                      :label="'Age'"
+                      :error="errors.has('edad')"
+                      :error-message="errors.first('edad')"
+                      v-model="form.chef.edad"
+                      v-validate="'required|integer'"
+                      name="edad"
+                      color="primary" />
+                  </div>
+                </div>
+                <div class="row justify-end">
+                  <q-btn :class="'justify-end'" :loading="submitting" color="blue" v-if="!form.chef.id" @click.prevent="simulateSubmit()">Save</q-btn>
+                </div>
+              </form>
             </q-card-section>
           </q-card>
         </q-dialog>
@@ -78,7 +106,10 @@ export default {
           edad: ''
         }
       },
-      modalChef: false,
+      modalChef: {
+        open: false,
+        title: 'Create chef'
+      },
       columns: [
         { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: false },
         { name: 'surname', align: 'left', label: 'Surname', field: 'surname', sortable: false },
@@ -114,9 +145,11 @@ export default {
     }
   },
   methods: {
-    modalChefClose () {
-      this.modalChef = !this.modalChef
-      this.form.chef = Object.assign({})
+    modalOption (value) {
+      this.modalChef.open = value
+      if (value) {
+        this.form.chef = Object.assign({})
+      }
     },
     simulateSubmit () {
       this.submitting = true
@@ -133,14 +166,14 @@ export default {
             console.log(error)
           })
         } else {
-          alert('error')
+          this.submitting = false
         }
       })
     },
     editChef (id) {
       chefService.edit(id).then((response) => {
         this.form.chef = Object.assign(response.data)
-        this.modalChef = true
+        this.modalChef.open = true
       }, (error) => {
         console.log(error)
       })
