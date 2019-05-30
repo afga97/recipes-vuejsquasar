@@ -7,7 +7,7 @@ module.exports = function (ctx) {
     boot: [
       'axios',
       'veevalidate',
-      'validate'
+      'il8n'
     ],
 
     css: [

@@ -50,7 +50,6 @@ import CDataTable from '../components/CDataTable.vue'
 import CInput from '../components/CInput.vue'
 import CButton from '../components/CButton.vue'
 import BtnTooltip from '../components/BtnTooltip.vue'
-import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Generic',
@@ -62,12 +61,6 @@ export default {
   },
   data () {
     return {
-      validations: {
-        name: {
-          required,
-          minLength: minLength(4)
-        }
-      },
       test: '',
       name: '',
       btnSuccess: {
