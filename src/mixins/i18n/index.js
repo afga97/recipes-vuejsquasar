@@ -1,5 +1,7 @@
-import esCO from './es-co/index'
+import esCO from './en-es/index'
+import esEN from './en-en/index'
 
 export default {
-  'es-co': esCO
+  'es': esCO,
+  'en': esEN
 }
