@@ -3,9 +3,9 @@
     <home-page></home-page>
     <q-page padding>
       <div class="q-pa-md">
-        <c-button v-bind="buttonSuccess" @click="modalOption(!modalChef.open)"/>
+        <c-button v-bind="buttonSuccess" @click="modalOption(!modalIngredient.open)"/>
         <q-table
-          title="Chefs"
+          title="Ingredients"
           :separator="'none'"
           :data="data"
           :columns="columns"
@@ -25,60 +25,12 @@
               </template>
             </q-input>
           </template>
+          <q-td slot="body-cell-categorie" slot-scope="props" :props="props"> {{ props.row.categorie.name }}</q-td>
           <q-td slot="body-cell-actions" slot-scope="props" :props="props">
-            <q-btn color="orange" @click.prevent="editChef(props.row.id)" icon="create" :size="'xs'" />
-            <q-btn color="red" @click.prevent="deleteChef()" icon="cancel" :size="'xs'" />
+            <q-btn color="orange" @click.prevent="" icon="create" :size="'xs'" />
+            <q-btn color="red" @click.prevent="" icon="cancel" :size="'xs'" />
           </q-td>
         </q-table>
-        <q-dialog v-model="modalChef.open">
-          <q-card style="width: 1000px; max-width: 80vw;">
-            <q-card-section class="row items-center">
-              <div class="text-h6">{{ $t('chef.title', { msg: $t(`chef.crud[${modalChef.option}]`) }) }}</div>
-              <q-space />
-              <q-btn icon="close" flat round dense v-close-popup/>
-            </q-card-section>
-            <q-card-section>
-              <form class="q-pa-md">
-                <div class="row q-col-gutter-sm">
-                  <div class="col-md-12 col-xs-12">
-                    <q-input
-                      :label="$t('chef.name')"
-                      :error="errors.has('name')"
-                      :error-message="errors.first('name')"
-                      v-model="form.chef.name"
-                      v-validate="'required'"
-                      name="name"
-                      color="primary" />
-                  </div>
-                  <div class="col-md-12 col-xs-12">
-                    <q-input
-                      :label="$t('chef.surname')"
-                      :error="errors.has('surname')"
-                      :error-message="errors.first('surname')"
-                      v-model="form.chef.surname"
-                      v-validate="'required'"
-                      name="surname"
-                      color="primary" />
-                  </div>
-                  <div class="col-md-12 col-xs-12">
-                    <q-input
-                      :label="$t('chef.age')"
-                      :error="errors.has('age')"
-                      :error-message="errors.first('age')"
-                      v-model="form.chef.edad"
-                      v-validate="'required|integer'"
-                      name="age"
-                      color="primary" />
-                  </div>
-                </div>
-                <div class="row justify-end">
-                  <q-btn :class="'justify-end'" no-caps :loading="submitting" color="blue" v-if="!form.chef.id" @click.prevent="simulateSubmit()">{{ $t('chef.buttons[0]')}}</q-btn>
-                  <q-btn :class="'justify-end'" no-caps :loading="submitting" color="blue" v-if="form.chef.id" @click.prevent="updateChef()">{{ $t('chef.buttons[1]')}}</q-btn>
-                </div>
-              </form>
-            </q-card-section>
-          </q-card>
-        </q-dialog>
       </div>
     </q-page>
   </div>
@@ -88,32 +40,32 @@ import Message from '../mixins/noty'
 import DataTable from '../mixins/dataTable'
 import CButton from '../components/CButton.vue'
 import HomePage from './Home.vue'
-import chefService from '../services/chef'
+import ingredientService from '../services/ingredients'
 import { Notify } from 'quasar'
 
 export default {
-  name: 'Chefs',
+  name: 'Ingredients',
   mixins: [DataTable],
   components: { CButton, HomePage },
   data () {
     return {
-      url: 'recipes/chefs/',
+      url: 'recipes/ingredients/',
       submitting: false,
       form: {
-        chef: {
+        ingredient: {
           name: '',
-          surname: '',
-          edad: ''
+          description: '',
+          categorie: ''
         }
       },
-      modalChef: {
+      modalIngredient: {
         open: false,
         option: 0
       },
       columns: [
-        { name: 'name', align: 'left', label: this.$t('chef.name'), field: 'name', sortable: false },
-        { name: 'surname', align: 'left', label: this.$t('chef.surname'), field: 'surname', sortable: false },
-        { name: 'edad', align: 'left', label: this.$t('chef.age'), field: 'edad', sortable: false },
+        { name: 'name', align: 'left', label: this.$t('ingredients.name'), field: 'name', sortable: false },
+        { name: 'description', align: 'left', label: this.$t('ingredients.description'), field: 'description', sortable: false },
+        { name: 'categorie', align: 'left', label: this.$t('ingredients.categorie'), field: 'categorie', sortable: false },
         { name: 'actions', align: 'left', label: this.$t('chef.actions'), field: 'actions', sortable: false, style: 'width: 220px' }
       ],
       buttonEdit: {
@@ -159,9 +111,9 @@ export default {
       this.submitting = true
       this.$validator.validateAll().then((response) => {
         if (response) {
-          chefService.save(this.form.chef).then((response) => {
+          ingredientService.save(this.form.ingredient).then((response) => {
             this.submitting = false
-            this.modalChef = false
+            this.modalIngredient = false
             this.onRequest({ pagination: this.pagination })
             this.form.chef = Object.assign({})
             Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
@@ -174,21 +126,21 @@ export default {
         }
       })
     },
-    editChef (id) {
-      chefService.edit(id).then((response) => {
-        this.form.chef = Object.assign(response.data)
-        this.modalChef.open = true
-        this.modalChef.option = 2
+    editIngredient (id) {
+      ingredientService.edit(id).then((response) => {
+        this.form.ingredient = Object.assign(response.data)
+        this.modalIngredient.open = true
+        this.modalIngredient.option = 2
       }, (error) => {
         console.log(error)
       })
     },
-    updateChef () {
+    updateIngredient () {
       this.$validator.validateAll().then((response) => {
         if (response) {
-          chefService.update(this.form.chef).then((response) => {
+          ingredientService.update(this.form.ingredient).then((response) => {
             this.submitting = false
-            this.modalChef.open = false
+            this.modalIngredient.open = false
             this.onRequest({ pagination: this.pagination })
             Message.message({ 'type': 'green', 'message': ' Chef actuliaado correctamente', 'timeout': 5 })
           }, (error) => {
@@ -199,7 +151,7 @@ export default {
         }
       })
     },
-    deleteChef () {
+    deleteIngredient () {
       let config = Message.messageOptions({ 'type': 'red', 'message': 'Desea eliminar el chef', 'position': 'center', 'actions': true })
       Notify.create(config)
     },

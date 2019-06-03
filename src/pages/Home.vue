@@ -25,7 +25,7 @@
         />
         <q-route-tab
           icon="fastfood"
-          to="/ingredients/list"
+          to="/ingredients/all"
           label="INGREDIENTS"
           exact
         />

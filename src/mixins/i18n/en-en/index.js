@@ -15,5 +15,10 @@ export default {
       'Save',
       'Update'
     ]
+  },
+  ingredients: {
+    name: 'Name',
+    description: 'Description',
+    categorie: 'Category'
   }
 }
