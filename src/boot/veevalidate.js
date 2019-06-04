@@ -20,7 +20,7 @@ import es from 'vee-validate/dist/locale/es'
 // }
 Validator.localize('es', es)
 const config = {
-  locale: 'es'
+  locale: 'en'
 }
 
 export default async ({ app, Vue }) => {

@@ -25,7 +25,7 @@
               </template>
             </q-input>
           </template>
-          <q-td slot="body-cell-categorie" slot-scope="props" :props="props"> {{ props.row.categorie.name }}</q-td>
+          <!-- <q-td slot="body-cell-categorie" slot-scope="props" :props="props"> {{ props.row.categorie.name }}</q-td> -->
           <q-td slot="body-cell-actions" slot-scope="props" :props="props">
             <q-btn color="orange" @click.prevent="" icon="create" :size="'xs'" />
             <q-btn color="red" @click.prevent="" icon="cancel" :size="'xs'" />

@@ -48,6 +48,7 @@
                       v-model="form.chef.name"
                       v-validate="'required'"
                       name="name"
+                      :data-vv-as="$t('chef.name')"
                       color="primary" />
                   </div>
                   <div class="col-md-12 col-xs-12">
