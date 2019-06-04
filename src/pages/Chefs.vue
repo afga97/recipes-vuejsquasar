@@ -59,6 +59,7 @@
                       v-model="form.chef.surname"
                       v-validate="'required'"
                       name="surname"
+                      :data-vv-as="$t('chef.surname')"
                       color="primary" />
                   </div>
                   <div class="col-md-12 col-xs-12">
@@ -69,6 +70,7 @@
                       v-model="form.chef.edad"
                       v-validate="'required|integer'"
                       name="age"
+                      :data-vv-as="$t('chef.age')"
                       color="primary" />
                   </div>
                 </div>

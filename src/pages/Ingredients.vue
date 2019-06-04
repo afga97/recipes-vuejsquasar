@@ -31,6 +31,60 @@
             <q-btn color="red" @click.prevent="" icon="cancel" :size="'xs'" />
           </q-td>
         </q-table>
+        <q-dialog v-model="modalIngredient.open">
+          <q-card style="width: 1000px; max-width: 80vw;">
+            <q-card-section class="row items-center">
+              <div class="text-h6">{{ $t('ingredients.title', { msg: $t(`chef.crud[${modalIngredient.option}]`) }) }} </div>
+              <q-space />
+              <q-btn icon="close" flat round dense v-close-popup/>
+            </q-card-section>
+            <q-card-section>
+              <form class="q-pa-md">
+                <div class="row q-col-gutter-sm">
+                  <div class="col-md-12 col-xs-12">
+                    <q-input
+                      :label="$t('ingredients.name')"
+                      :error="errors.has('name')"
+                      :error-message="errors.first('name')"
+                      v-model="form.ingredient.name"
+                      v-validate="'required'"
+                      name="name"
+                      :data-vv-as="$t('ingredients.name')"
+                      color="primary" />
+                  </div>
+                  <div class="col-md-12 col-xs-12">
+                    <q-input
+                      :label="$t('ingredients.description')"
+                      :error="errors.has('description')"
+                      :error-message="errors.first('description')"
+                      v-model="form.ingredient.description"
+                      v-validate="'required'"
+                      name="description"
+                      :data-vv-as="$t('ingredients.description')"
+                      color="primary" />
+                  </div>
+                  <div class="col-md-12 col-xs-12">
+                    <q-select
+                      v-model="form.ingredient.categorie"
+                      use-chips
+                      :label="$t('ingredients.categorie')"
+                      :options="optionsCategorie"
+                      @filter="getCategories"
+                    >
+                      <template v-slot:no-option>
+                        <q-item>
+                          <q-item-section class="text-grey">
+                            No results
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select>
+                  </div>
+                </div>
+              </form>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
       </div>
     </q-page>
   </div>
@@ -51,6 +105,7 @@ export default {
     return {
       url: 'recipes/ingredients/',
       submitting: false,
+      optionsCategorie: [],
       form: {
         ingredient: {
           name: '',
@@ -101,10 +156,10 @@ export default {
   },
   methods: {
     modalOption (value) {
-      this.modalChef.open = value
+      this.modalIngredient.open = value
       if (value) {
-        this.form.chef = Object.assign({})
-        this.modalChef.option = 0
+        this.form.ingredient = Object.assign({})
+        this.modalIngredient.option = 0
       }
     },
     simulateSubmit () {
@@ -157,6 +212,18 @@ export default {
     },
     alertDelete () {
       alert('Hola')
+    },
+    getCategories (val, update, abort) {
+      if (this.optionsCategorie !== null) {
+        update()
+        return
+      }
+      debugger
+      setTimeout(() => {
+        update(() => {
+          this.optionsCategorie = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
+        })
+      }, 2000)
     }
   }
 }

@@ -19,6 +19,7 @@ export default {
   ingredients: {
     name: 'Nombre',
     description: 'Descripción',
-    categorie: 'Categoria'
+    categorie: 'Categoria',
+    title: '{msg} ingrediente'
   }
 }

@@ -62,7 +62,8 @@ module.exports = function (ctx) {
         'QRouteTab',
         'QTabPanels',
         'QTabPanel',
-        'QField'
+        'QField',
+        'QSelect'
       ],
 
       directives: [
