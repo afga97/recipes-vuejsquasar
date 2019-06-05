@@ -31,4 +31,8 @@ ingredientService.update = (chef) => {
   })
 }
 
+ingredientService.getCategories = () => {
+  return recipeService.get(`/recipes/categories/`)
+}
+
 export default ingredientService

@@ -63,13 +63,16 @@
                       :data-vv-as="$t('ingredients.description')"
                       color="primary" />
                   </div>
-                  <div class="col-md-12 col-xs-12">
+                  <div class="col-md-11 col-xs-12">
                     <q-select
                       v-model="form.ingredient.categorie"
                       use-chips
+                      input-debounce="0"
+                      use-input
                       :label="$t('ingredients.categorie')"
-                      :options="optionsCategorie"
+                      :options="optionsCategories"
                       @filter="getCategories"
+                      @filter-abort="abortGetCategories"
                     >
                       <template v-slot:no-option>
                         <q-item>
@@ -78,7 +81,17 @@
                           </q-item-section>
                         </q-item>
                       </template>
+                      <template v-slot:append>
+                      </template>
                     </q-select>
+                  </div>
+                  <div class="col-md-1 col-xs-3">
+                    <q-btn
+                      v-if="optionsCategories"
+                      label="Reset"
+                      color="primary"
+                      @click="cleanCategorie"
+                    ></q-btn>
                   </div>
                 </div>
               </form>
@@ -105,7 +118,7 @@ export default {
     return {
       url: 'recipes/ingredients/',
       submitting: false,
-      optionsCategorie: [],
+      optionsCategories: null,
       form: {
         ingredient: {
           name: '',
@@ -151,15 +164,13 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(this.$i18n.locale)
-  },
   methods: {
     modalOption (value) {
       this.modalIngredient.open = value
       if (value) {
         this.form.ingredient = Object.assign({})
         this.modalIngredient.option = 0
+        this.optionsCategories = null
       }
     },
     simulateSubmit () {
@@ -214,16 +225,26 @@ export default {
       alert('Hola')
     },
     getCategories (val, update, abort) {
-      if (this.optionsCategorie !== null) {
+      if (this.optionsCategories !== null) {
         update()
         return
       }
-      debugger
-      setTimeout(() => {
-        update(() => {
-          this.optionsCategorie = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
+      update(() => {
+        let optionsC = []
+        ingredientService.getCategories().then((response) => {
+          response.data.results.map(function (obj) {
+            optionsC.push({ value: obj.id, label: obj.name })
+          })
         })
-      }, 2000)
+        this.optionsCategories = optionsC
+      })
+    },
+    abortGetCategories () {
+      console.log('delayed filter aborted')
+    },
+    cleanCategorie () {
+      this.optionsCategories = null
+      this.form.ingredient.categorie = null
     }
   }
 }
