@@ -26,16 +26,16 @@
       bordered
       content-class="bg-grey-2"
     >
-    <div class="column justify-between" accent style="height: 150px; background-image: url(https://cdn-images-1.medium.com/max/310/1*Jie55HRpeCmZpmldgrL2eQ.png)">
+    <div class="column justify-between" accent style="height: 150px; background-image: url(../assets/img/fondo_sidebar.png)">
       <q-item>
         <q-item-section side>
           <q-avatar size="100px" style="margin-top: 20px;">
-            <img src="http://chittagongit.com/images/avatar-icon-png/avatar-icon-png-25.jpg" />
+            <img src="../assets/img/10_avatar.png"/>
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label>Agiraagu</q-item-label>
-          <q-item-label caption>Administrador</q-item-label>
+          <q-item-label> <strong>Agiraagu</strong></q-item-label>
+          <q-item-label>Administrador</q-item-label>
           <q-btn round color="blue-5" icon="directions" />
         </q-item-section>
       </q-item>
