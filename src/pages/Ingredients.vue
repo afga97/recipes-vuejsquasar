@@ -27,7 +27,7 @@
           </template>
           <!-- <q-td slot="body-cell-categorie" slot-scope="props" :props="props"> {{ props.row.categorie.name }}</q-td> -->
           <q-td slot="body-cell-actions" slot-scope="props" :props="props">
-            <q-btn color="orange" @click.prevent="" icon="create" :size="'xs'" />
+            <q-btn color="orange" @click.prevent="editIngredient(props.row.id)" icon="create" :size="'xs'" />
             <q-btn color="red" @click.prevent="" icon="cancel" :size="'xs'" />
           </q-td>
         </q-table>
@@ -68,7 +68,6 @@
                       v-model="form.ingredient.categorie"
                       use-chips
                       input-debounce="0"
-                      use-input
                       :label="$t('ingredients.categorie')"
                       :options="optionsCategories"
                       @filter="getCategories"
@@ -93,6 +92,11 @@
                       @click="cleanCategorie"
                     ></q-btn>
                   </div>
+                </div>
+                <br>
+                <div class="row justify-end">
+                  <q-btn :class="'justify-end'" no-caps :loading="submitting" color="blue" v-if="!form.ingredient.id" @click.prevent="simulateSubmit()">{{ $t('chef.buttons[0]')}}</q-btn>
+                  <q-btn :class="'justify-end'" no-caps :loading="submitting" color="blue" v-if="form.ingredient.id" @click.prevent="updateIngredient()">{{ $t('chef.buttons[1]')}}</q-btn>
                 </div>
               </form>
             </q-card-section>
@@ -123,7 +127,7 @@ export default {
         ingredient: {
           name: '',
           description: '',
-          categorie: ''
+          categorie: {}
         }
       },
       modalIngredient: {
@@ -182,7 +186,7 @@ export default {
             this.modalIngredient = false
             this.onRequest({ pagination: this.pagination })
             this.form.chef = Object.assign({})
-            Message.message({ 'type': 'green', 'message': ' Chef registrado correctamente', 'timeout': 5 })
+            Message.message({ 'type': 'green', 'message': ' Ingrediente registrado correctamente', 'timeout': 5 })
           }, (error) => {
             this.submitting = false
             console.log(error.response.data)
@@ -194,7 +198,10 @@ export default {
     },
     editIngredient (id) {
       ingredientService.edit(id).then((response) => {
-        this.form.ingredient = Object.assign(response.data)
+        this.form.ingredient.id = response.data.id
+        this.form.ingredient.name = response.data.name
+        this.form.ingredient.description = response.data.description
+        this.form.ingredient.categorie = { label: response.data.categorie, value: response.data.categorie_id }
         this.modalIngredient.open = true
         this.modalIngredient.option = 2
       }, (error) => {
@@ -208,7 +215,7 @@ export default {
             this.submitting = false
             this.modalIngredient.open = false
             this.onRequest({ pagination: this.pagination })
-            Message.message({ 'type': 'green', 'message': ' Chef actuliaado correctamente', 'timeout': 5 })
+            Message.message({ 'type': 'green', 'message': ' Ingrediente actuliazado correctamente', 'timeout': 5 })
           }, (error) => {
             console.log(error)
           })
@@ -218,7 +225,7 @@ export default {
       })
     },
     deleteIngredient () {
-      let config = Message.messageOptions({ 'type': 'red', 'message': 'Desea eliminar el chef', 'position': 'center', 'actions': true })
+      let config = Message.messageOptions({ 'type': 'red', 'message': 'Desea eliminar el ingrediente', 'position': 'center', 'actions': true })
       Notify.create(config)
     },
     alertDelete () {
@@ -232,7 +239,7 @@ export default {
       update(() => {
         let optionsC = []
         ingredientService.getCategories().then((response) => {
-          response.data.results.map(function (obj) {
+          response.data.map(function (obj) {
             optionsC.push({ value: obj.id, label: obj.name })
           })
         })

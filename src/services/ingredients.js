@@ -11,11 +11,11 @@ ingredientService.alls = (limit, offset) => {
   })
 }
 
-ingredientService.save = (chef) => {
+ingredientService.save = (ingredient) => {
   return recipeService.post('/recipes/ingredients/', {
-    name: chef.name,
-    surname: chef.surname,
-    edad: chef.edad
+    name: ingredient.name,
+    description: ingredient.description,
+    categorie: ingredient.categorie.value
   })
 }
 
@@ -23,16 +23,16 @@ ingredientService.edit = (id) => {
   return recipeService.get(`/recipes/ingredients/${id}/`)
 }
 
-ingredientService.update = (chef) => {
-  return recipeService.put(`/recipes/ingredients/${chef.id}/`, {
-    name: chef.name,
-    surname: chef.surname,
-    edad: chef.edad
+ingredientService.update = (ingredient) => {
+  return recipeService.put(`/recipes/ingredients/${ingredient.id}/`, {
+    name: ingredient.name,
+    description: ingredient.description,
+    categorie: ingredient.categorie.value
   })
 }
 
 ingredientService.getCategories = () => {
-  return recipeService.get(`/recipes/categories/`)
+  return recipeService.get(`/recipes/categories/?nopaginate=True/`)
 }
 
 export default ingredientService
