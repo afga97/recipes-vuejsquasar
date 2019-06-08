@@ -19,7 +19,7 @@
         />
         <q-route-tab
           icon="restaurant"
-          to="/recipes/list"
+          to="/recipes/all"
           label="RECIPES"
           exact
         />

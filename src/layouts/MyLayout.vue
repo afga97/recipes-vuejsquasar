@@ -88,6 +88,9 @@
 
     <q-page-container>
       <router-view />
+      <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+        <q-btn fab icon="keyboard_arrow_up" color="blue" />
+      </q-page-scroller>
     </q-page-container>
     <q-footer elevated>
         <q-toolbar>

@@ -63,7 +63,10 @@ module.exports = function (ctx) {
         'QTabPanels',
         'QTabPanel',
         'QField',
-        'QSelect'
+        'QSelect',
+        'QInfiniteScroll',
+        'QSpinnerDots',
+        'QPageScroller'
       ],
 
       directives: [
