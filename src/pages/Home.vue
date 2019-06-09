@@ -12,18 +12,21 @@
           class="bg-white text-grey shadow-2"
         >
         <q-route-tab
-          icon="people"
-          to="/chefs/all/"
-          label="CHEFS"
-          exact
-        />
-        <q-route-tab
+          name="recipes"
           icon="restaurant"
           to="/recipes/all"
           label="RECIPES"
           exact
         />
         <q-route-tab
+          name="chefs"
+          icon="people"
+          to="/chefs/all/"
+          label="CHEFS"
+          exact
+        />
+        <q-route-tab
+          name="ingredients"
           icon="fastfood"
           to="/ingredients/all"
           label="INGREDIENTS"
@@ -46,7 +49,7 @@ export default {
   name: 'HomePage',
   data () {
     return {
-      tab: 'chefs'
+      tab: 'recipes'
     }
   }
 }

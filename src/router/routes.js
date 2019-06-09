@@ -2,7 +2,7 @@
 const routes = [
   {
     path: '/',
-    redirect: '/chefs/all/'
+    redirect: '/recipes/all/'
   },
   {
     path: '/generics',

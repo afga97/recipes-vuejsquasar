@@ -1,12 +1,13 @@
 import recipeService from './s-recipes'
 
-const s_recipeService = {}
+const recetaService = {}
 
-s_recipeService.alls = (limit, offset) => {
-	return recipeService.get('recipes/recipes/', {
-		params: {
-			limit: limit,
-			offset: offset
-		}
-	})
+recetaService.alls = async (limit, offset = 0) => {
+  return recipeService.get('recipes/recipes/', {
+    params: {
+      limit: limit,
+      offset: offset
+    }
+  })
 }
+export default recetaService

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lhr Lpr lff">
+  <q-layout view="lHr Lpr lff">
     <q-header elevated id="header">
       <q-toolbar>
         <q-btn
@@ -42,15 +42,8 @@
     </div>
       <q-separator />
       <q-list>
-        <q-item clickable v-ripple :active="link === 'home'"
-        @click="link = 'home'" to="/home" exact active-class="my-menu-link">
-          <q-item-section avatar>
-            <q-icon name="home" />
-          </q-item-section>
-          <q-item-section>Home</q-item-section>
-        </q-item>
-        <q-item clickable v-ripple :active="link === 'recetas'"
-        @click="link = 'recetas'" active-class="my-menu-link">
+        <q-item clickable v-ripple :active="link === 'recipes'"
+        @click="link = 'recipes'" to="/recipes/all" active-class="my-menu-link">
           <q-item-section avatar>
             <q-icon name="restaurant" />
           </q-item-section>
@@ -62,14 +55,14 @@
         label="Management"
       >
         <q-item clickable v-ripple :active="link === 'ingredientes'"
-        @click="link = 'ingredientes'" active-class="my-menu-link">
+        @click="link = 'ingredients'" to="/ingredients/all" active-class="my-menu-link">
           <q-item-section avatar>
             <q-icon name="fastfood" />
           </q-item-section>
           <q-item-section>Ingredients</q-item-section>
         </q-item>
         <q-item clickable v-ripple :active="link === 'chefs'"
-        @click="link = 'chefs'" active-class="my-menu-link">
+        @click="link = 'chefs'" to="/chefs/all" active-class="my-menu-link">
           <q-item-section avatar>
             <q-icon name="people" />
           </q-item-section>
