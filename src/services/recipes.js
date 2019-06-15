@@ -2,11 +2,15 @@ import recipeService from './s-recipes'
 
 const recetaService = {}
 
-recetaService.alls = async (limit, offset = 0) => {
-  return recipeService.get('recipes/recipes/', {
+recetaService.alls = (moreUrl = '') => {
+  return recipeService.get(`recipes/recipes/${moreUrl}`)
+}
+
+recetaService.searhRecipes = (search, paginate) => {
+  return recipeService.get(`recipes/recipes/`, {
     params: {
-      limit: limit,
-      offset: offset
+      search: search,
+      nopaginate: paginate
     }
   })
 }
