@@ -9,13 +9,6 @@
               <template v-slot:append>
                 <q-btn round dense flat icon="search" @click="searchRecipes"/>
               </template>
-              <q-menu fit>
-                <q-list style="min-width: 230px" v-if="showMenuSearch">
-                  <q-item clickable v-for="(recipe, index) in recipesMenuSearch" :key="index">
-                    <q-item-section>{{recipe.name}}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
             </q-input>
             <br>
           </div>
@@ -89,7 +82,7 @@ export default {
     }
   },
   mounted () {
-    recetaService.alls(`?limit=${this.recipesScroll.initialRecipes}&offset=0&ordering=-id`).then(
+    recetaService.alls(`?limit=${this.recipesScroll.initialRecipes}&offset=0&ordering=id`).then(
       response => {
         this.recipesScroll.totalRecipes = response.data.count
         this.recipes = response.data.results
@@ -105,21 +98,12 @@ export default {
       return this.recipes.length
     }
   },
-  watch: {
-    recipesMenuSearch: function () {
-      if (this.recipesMenuSearch.length > 0) {
-        this.showMenuSearch = true
-      } else {
-        this.showMenuSearch = false
-      }
-    }
-  },
   methods: {
     onLoad (index, done) {
       if (this.recipes.length >= this.recipesScroll.initialRecipes) {
         if (this.recipesScroll.totalRecipes > this.recipes.length) {
           recetaService
-            .alls(`?limit=${this.recipesScroll.limit}&offset=${this.recipesScroll.offset}&ordering=-id`)
+            .alls(`?limit=${this.recipesScroll.limit}&offset=${this.recipesScroll.offset}&ordering=id`)
             .then(response => {
               response.data.results.map(recipe => {
                 this.recipes.push({
@@ -139,16 +123,11 @@ export default {
       }
     },
     searchRecipes () {
-      if (this.filter == null) {
-        this.recipesMenuSearch = []
-      } else {
-        recetaService.searhRecipes(this.filter, 'True').then((response) => {
-          this.recipesMenuSearch = response.data
-        }, (error) => {
-          console.log(error)
-          this.recipesMenuSearch = []
-        })
-      }
+      recetaService.searhRecipes(this.filter, 'True').then((response) => {
+        this.recipesMenuSearch = response.data
+      }, (error) => {
+        console.log(error)
+      })
     }
   }
 }
