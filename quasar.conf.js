@@ -67,7 +67,7 @@ module.exports = function (ctx) {
         'QInfiniteScroll',
         'QSpinnerDots',
         'QPageScroller',
-        'QMenu'
+        'QChip'
       ],
 
       directives: [

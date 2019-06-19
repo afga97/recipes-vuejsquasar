@@ -7,7 +7,7 @@
           <div class="col-md-6 col-xs-12">
             <q-input rounded outlined v-model="filter" label="Search">
               <template v-slot:append>
-                <q-btn round dense flat icon="search" @click="searchRecipes"/>
+                <q-btn round dense flat icon="search" @click="searchRecipes" @keyup.enter="searchRecipes"/>
               </template>
               <template v-slot:after>
                 <q-btn round dense flat icon="cancel" v-if="clearIconSearch" @click="filter = null"/>
@@ -42,10 +42,25 @@
                     <div class="text-h6">{{ item.name }}</div>
                     <div class="text-subtitle2">{{ item.author }}</div>
                   </q-card-section>-->
-                  <q-card-section>{{ recipe.description }}</q-card-section>
+                  <q-card-section>
+                    {{ recipe.description }}
+                    <q-expansion-item
+                      group="somegroup"
+                      icon="explore"
+                      label="Ingredientes"
+                      header-class="text-primary">
+                        <q-card>
+                          <q-card-section>
+                            <q-chip dense color="primary" text-color="white"> arroz</q-chip>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
+                            commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
+                            eveniet doloribus ullam aliquid.
+                          </q-card-section>
+                        </q-card>
+                    </q-expansion-item>
+                  </q-card-section>
                   <q-card-actions align="around">
-                    <q-btn flat round color="red" icon="favorite"/>
-                    <q-btn flat round color="teal" icon="bookmark"/>
+                    <q-btn flat round color="black" icon="remove_red_eye"/>
                   </q-card-actions>
                 </q-card>
               </div>
