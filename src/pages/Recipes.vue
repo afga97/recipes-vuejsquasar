@@ -4,17 +4,20 @@
     <q-page padding>
       <div class="q-pa-md">
         <div class="row justify-center">
-          <div class="col-md-5 col-xs-12">
-            <q-input dense rounded outlined v-model="filter" label="Search">
+          <div class="col-md-6 col-xs-12">
+            <q-input rounded outlined v-model="filter" label="Search">
               <template v-slot:append>
                 <q-btn round dense flat icon="search" @click="searchRecipes"/>
+              </template>
+              <template v-slot:after>
+                <q-btn round dense flat icon="cancel" v-if="clearIconSearch" @click="filter = null"/>
               </template>
             </q-input>
             <br>
           </div>
           <q-card class="principal">
             <p
-              class="row justify-end text-overline"
+              class="row justify-end text-overline" id="information"
             >Mostrando {{ totalImages }} de {{ recipesScroll.totalRecipes }}</p>
             <q-infinite-scroll
               @load="onLoad"
@@ -71,6 +74,7 @@ export default {
       scrolldisabled: false,
       showMenuSearch: false,
       filter: null,
+      clearIconSearch: false,
       recipes: [],
       recipesMenuSearch: [],
       recipesScroll: {
@@ -82,28 +86,42 @@ export default {
     }
   },
   mounted () {
-    recetaService.alls(`?limit=${this.recipesScroll.initialRecipes}&offset=0&ordering=id`).then(
-      response => {
-        this.recipesScroll.totalRecipes = response.data.count
-        this.recipes = response.data.results
-        this.recipesScroll.offset = response.data.results.length
-      },
-      error => {
-        console.log(error.response.data)
-      }
-    )
+    this.initialṔage()
   },
   computed: {
     totalImages: function () {
       return this.recipes.length
     }
   },
+  watch: {
+    filter: function () {
+      if (this.filter == null || this.filter === '') {
+        this.initialṔage()
+        this.clearIconSearch = false
+      } else {
+        this.clearIconSearch = true
+      }
+    }
+  },
   methods: {
+    initialṔage () {
+      recetaService.alls(`?limit=${this.recipesScroll.initialRecipes}&offset=0&ordering=id`).then(response => {
+        this.recipesScroll.totalRecipes = response.data.count
+        this.recipes = response.data.results
+        this.recipesScroll.offset = response.data.results.length
+      }, (error) => {
+        console.log(error.response.data)
+      })
+    },
     onLoad (index, done) {
+      var query = `?limit=${this.recipesScroll.limit}&offset=${this.recipesScroll.offset}&ordering=id`
       if (this.recipes.length >= this.recipesScroll.initialRecipes) {
         if (this.recipesScroll.totalRecipes > this.recipes.length) {
+          if (this.filter != null) {
+            query = `?name__icontains=${this.filter}&limit=${this.recipesScroll.limit}&offset=${this.recipesScroll.offset}&ordering=id`
+          }
           recetaService
-            .alls(`?limit=${this.recipesScroll.limit}&offset=${this.recipesScroll.offset}&ordering=id`)
+            .alls(query)
             .then(response => {
               response.data.results.map(recipe => {
                 this.recipes.push({
@@ -123,8 +141,11 @@ export default {
       }
     },
     searchRecipes () {
-      recetaService.searhRecipes(this.filter, 'True').then((response) => {
-        this.recipesMenuSearch = response.data
+      recetaService.searhRecipes(`name__icontains=${this.filter}&limit=${this.recipesScroll.initialRecipes}&offset=0&ordering=id`).then((response) => {
+        this.recipes = []
+        this.recipesScroll.totalRecipes = response.data.count
+        this.recipes = response.data.results
+        this.recipesScroll.offset = this.recipes.length
       }, (error) => {
         console.log(error)
       })
@@ -138,6 +159,11 @@ export default {
   max-width: 523px;
   margin-top: 18px;
   margin-bottom: 18px;
+}
+
+#information {
+  padding-top: 14px;
+  // padding-right: 44px;
 }
 
 .principal {
