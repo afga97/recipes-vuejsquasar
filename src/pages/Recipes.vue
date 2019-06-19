@@ -5,9 +5,9 @@
       <div class="q-pa-md">
         <div class="row justify-center">
           <div class="col-md-6 col-xs-12">
-            <q-input rounded outlined v-model="filter" label="Search">
+            <q-input rounded outlined v-model="filter" label="Search" @keyup.enter="searchRecipes">
               <template v-slot:append>
-                <q-btn round dense flat icon="search" @click="searchRecipes" @keyup.enter="searchRecipes"/>
+                <q-btn round dense flat icon="search" @click="searchRecipes"/>
               </template>
               <template v-slot:after>
                 <q-btn round dense flat icon="cancel" v-if="clearIconSearch" @click="filter = null"/>
