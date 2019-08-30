@@ -5,7 +5,7 @@ export default async ({ app, Vue }) => {
   Vue.use(VueI18n)
 
   app.i18n = new VueI18n({
-    locale: 'en',
+    locale: app.store.state.chef.language,
     fallbackLocale: 'en',
     messages
   })

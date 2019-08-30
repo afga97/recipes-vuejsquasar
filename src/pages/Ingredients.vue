@@ -168,6 +168,9 @@ export default {
       }
     }
   },
+  mounted: function () {
+    console.log('asdasdasd', this.$store)
+  },
   methods: {
     modalOption (value) {
       this.modalIngredient.open = value

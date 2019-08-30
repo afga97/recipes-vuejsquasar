@@ -44,20 +44,6 @@
                   </q-card-section>-->
                   <q-card-section>
                     {{ recipe.description }}
-                    <q-expansion-item
-                      group="somegroup"
-                      icon="explore"
-                      label="Ingredientes"
-                      header-class="text-primary">
-                        <q-card>
-                          <q-card-section>
-                            <q-chip dense color="primary" text-color="white"> arroz</q-chip>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
-                            commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-                            eveniet doloribus ullam aliquid.
-                          </q-card-section>
-                        </q-card>
-                    </q-expansion-item>
                   </q-card-section>
                   <q-card-actions align="around">
                     <q-btn flat round color="black" icon="remove_red_eye"/>

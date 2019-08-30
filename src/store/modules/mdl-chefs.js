@@ -1,12 +1,15 @@
 import chefService from '../../services/chef'
 
 const state = {
-  chefs: []
+  language: 'en'
 }
 
 const getters = {
   chefs: state => {
     return state.chefs
+  },
+  language: state => {
+    return state.language
   }
 }
 
@@ -24,6 +27,9 @@ const actions = {
 const mutations = {
   SET_ITEM (state, payload) {
     state.chefs = payload.chefs
+  },
+  SET_STATE (state, { language }) {
+    state.language = language
   }
 }
 
